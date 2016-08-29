@@ -8,13 +8,17 @@ import (
 
 func main() {
 	input := bufio.NewScanner(os.Stdin)
+	var words []string
 	for input.Scan() {
 		in := input.Text()
 		if in == "STOP" {
-			fmt.Println("enough")
+			fmt.Println("words collected are:")
+			for _, word := range words {
+				fmt.Println(word)
+			}
 			break
 		} else {
-			fmt.Println(in)
+			words = append(words, in)
 		}
 	}
 	fmt.Println("done")
