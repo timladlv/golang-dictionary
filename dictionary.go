@@ -4,13 +4,15 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func main() {
+	fmt.Println("Please enter words in the dictionary")
 	input := bufio.NewScanner(os.Stdin)
 	var words []string
 	for input.Scan() {
-		in := input.Text()
+		in := strings.ToUpper(input.Text())
 		if in == "STOP" {
 			fmt.Println("words collected are:")
 			for _, word := range words {
@@ -21,5 +23,4 @@ func main() {
 			words = append(words, in)
 		}
 	}
-	fmt.Println("done")
 }
