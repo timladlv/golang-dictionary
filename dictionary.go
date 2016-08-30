@@ -29,6 +29,10 @@ func main() {
 }
 
 func createDictionary(words []string) ([]rune, error) {
-	error := errMissingWords
-	return nil, error
+	var err error
+	if len(words) == 0 {
+		err = errMissingWords
+	}
+	// TODO replace with impl
+	return []rune{'B'}, err
 }
