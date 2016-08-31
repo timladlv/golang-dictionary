@@ -12,12 +12,6 @@ func TestNoWordsReturnsError(t *testing.T) {
 
 	_, nilSlice := CreateAlphabet(nil)
 	checkMissingWordsError(t, nilSlice)
-
-	words = append(words, "word")
-	_, err := CreateAlphabet(words)
-	if err != nil {
-		t.Error("word passed so should not have errored")
-	}
 }
 
 func checkMissingWordsError(t *testing.T, err error) {
@@ -29,6 +23,29 @@ func checkMissingWordsError(t *testing.T, err error) {
 func TestSingleLetterAlphabet(t *testing.T) {
 	expected := []rune{'A'}
 	actual, _ := CreateAlphabet([]string{"A"})
+	if !reflect.DeepEqual(expected, actual) {
+		t.Errorf("rune slices not equal expected %q actual %q", expected, actual)
+	}
+}
+
+func TestSingleWordLengthGreaterOneFails(t *testing.T) {
+	_, err := CreateAlphabet([]string{"BA"})
+	if err.Error() != ErrInsufficientTerms.Error() {
+		t.Errorf("expected ErrInsufficientTerms but was %q", err.Error())
+	}
+}
+
+func TestTwoLetterAlphabet(t *testing.T) {
+	expected := []rune{'B', 'A'}
+	actual, _ := CreateAlphabet([]string{"B", "A"})
+	if !reflect.DeepEqual(expected, actual) {
+		t.Errorf("rune slices not equal expected %q actual %q", expected, actual)
+	}
+}
+
+func TestTwoLetterAlphabetDifferentFirstLetters(t *testing.T) {
+	expected := []rune{'B', 'A'}
+	actual, _ := CreateAlphabet([]string{"BA", "A"})
 	if !reflect.DeepEqual(expected, actual) {
 		t.Errorf("rune slices not equal expected %q actual %q", expected, actual)
 	}
