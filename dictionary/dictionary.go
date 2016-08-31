@@ -120,6 +120,9 @@ func inferRuneSequenceFromTwoWords(first string, second string) ([2]rune, bool) 
 }
 
 func findRuneNeverSecond(runePairs [][2]rune) (rune, error) {
+	var err error
+	var answer rune
+	count := 0
 	for _, rp := range runePairs {
 		r := rp[0]
 		neverSecond := true
@@ -129,9 +132,14 @@ func findRuneNeverSecond(runePairs [][2]rune) (rune, error) {
 				break
 			}
 		}
-		if neverSecond {
-			return r, nil
+		if neverSecond && r != answer {
+			answer = r
+			count++
 		}
 	}
-	return 0, ErrInsufficientTerms
+	if count != 1 {
+		// there should be exactly one rune that is never second to be able to infer an alphabet
+		err = ErrInsufficientTerms
+	}
+	return answer, err
 }
